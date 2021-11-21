@@ -5,7 +5,11 @@
 package it.polito.tdp.corsi;
 
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.corsi.model.Corso;
 import it.polito.tdp.corsi.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,11 +50,55 @@ public class FXMLController {
 
     @FXML
     void corsiPerPeriodo(ActionEvent event) {
+    	txtRisultato.clear();
     	
+    	String periodoStringa= txtPeriodo.getText();
+    	Integer periodo;
+    	try {
+    		periodo=Integer.parseInt(periodoStringa);
+    	}
+    	catch(NumberFormatException ne) {
+    		txtRisultato.appendText("Grandissim*, non sai nemmeno che devi inserire un numero tra 1 e 2 nella casella di testo Periodo"); 
+    		return;
+    	}
+    	catch(NullPointerException np) {
+    		txtRisultato.appendText("Grandissim*, non sai nemmeno che devi inserire un numero tra 1 e 2 nella casella di testo Periodo"); 
+    		return;
+    	}
+    	if(periodo<1 || periodo>2) {
+    		txtRisultato.appendText("Grandissim*, non sai nemmeno che devi inserire un numero tra 1 e 2 nella casella di testo Periodo"); 
+    	}
+    	List<Corso> corsi= this.model.getCorsibyPeriodo(periodo);
+    	for(Corso c : corsi) {
+    		txtRisultato.appendText(c.toString() + "\n");
+    	}
     }
 
     @FXML
     void numeroStudenti(ActionEvent event) {
+    	txtRisultato.clear();
+    	String periodoStringa= txtPeriodo.getText();
+    	Integer periodo;
+    	try {
+    		periodo=Integer.parseInt(periodoStringa);
+    	}
+    	catch(NumberFormatException ne) {
+    		txtRisultato.appendText("Grandissim*, non sai nemmeno che devi inserire un numero tra 1 e 2 nella casella di testo Periodo"); 
+    		return;
+    	}
+    	catch(NullPointerException np) {
+    		txtRisultato.appendText("Grandissim*, non sai nemmeno che devi inserire un numero tra 1 e 2 nella casella di testo Periodo"); 
+    		return;
+    	}
+    	if(periodo<1 || periodo>2) {
+    		txtRisultato.appendText("Grandissim*, non sai nemmeno che devi inserire un numero tra 1 e 2 nella casella di testo Periodo"); 
+    	}
+    	Map<Corso,Integer> corsi=this.model.getIscrittiByPeriodo(periodo);
+    	for(Corso c : corsi.keySet()) {
+    		txtRisultato.appendText(c.toString());
+    		Integer n = corsi.get(c);
+    		txtRisultato.appendText("\t"+" "+n+"\n");
+    	}
     	
     }
 
